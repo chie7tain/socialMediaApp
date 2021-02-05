@@ -1,0 +1,23 @@
+const {ApolloServer} = require("apollo-server");
+const gql = require("graphql-tag");
+const mongoose = require("mongoose");
+
+const typeDefs = require("./graphQl/typeDefs");
+const Post = require("./models/Post");
+const {MONGODB} = require ("./config.js");
+
+const resolvers = {
+
+};
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers
+});
+mongoose.connect(MONGODB,{useNewUrlParser:true})
+  .then(()=>{
+    console.log("MongoDB Connected");
+    return server.listen({ port: 7000 });
+  }).then(res =>{
+  console.log(`Server running at ${res.url}`);
+})
